@@ -1,0 +1,405 @@
+/*Элементы*/
+
+:root {
+    --white: #ffffff;
+    --feature-color-lighter: #74C5FF;
+    --feature-color: #32A9FF;
+    --grey: #BBBBBB;
+    --light-grey: #D9D9D9;
+    --lighter-grey: #E9E9E9;
+    --almost-white-grey: #EDEDED;
+    --dark-grey: #888888;
+    --text-description-color: #555555;
+    --box-shadow-color: #6B6B6B;
+    --slider-width: 443px;
+    --slider-height: 265px;
+    --container-width: 0px;
+}
+
+.disabled {
+    display: none;
+}
+
+.button_default, .button_disabled {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: fit-content;
+    height: fit-content;
+    color: var(--white);
+    font-weight: 600;
+    font-size: 16px;
+    background: var(--feature-color);
+    border: 3px solid var(--feature-color);
+    border-radius: 5px;
+    padding: 15px 30px;
+    transition: 0.2s;
+}
+
+.button_default:hover {
+    cursor: pointer;
+    background: var(--white);
+    color: var(--feature-color);
+}
+
+.button_disabled {
+    background: var(--dark-grey);
+    border: 3px solid var(--dark-grey);
+}
+
+.button_disabled:hover {
+    cursor: default;
+}
+
+.button_underlined {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    font-size: 20px;
+    font-weight: 500;
+}
+
+.button_underlined:hover {
+    cursor: pointer;
+}
+
+.button_underlined :hover~.button-underlined_underline {
+    background: var(--feature-color);
+}
+
+.button-underlined_underline {
+    background: var(--light-grey);
+    width: 100%;
+    margin-top: 10px;
+    height: 6px;
+}
+
+.button-underlined_underline:hover {
+    background: var(--feature-color);
+}
+
+/*Инпуты*/
+
+.input_default, .dropdown_item {
+    height: 35px;
+    font-size: 20px;
+    font-weight: 500;
+    padding: 0 8px;
+    border: 2px solid var(--grey);
+    border-radius: 5px;
+}
+
+.input_default:focus {
+    color: #000000;
+    border: 2px solid var(--dark-grey);
+}
+
+/* Дроп-меню */
+
+.dropdown_menu {
+    width: 300px;
+}
+
+.dropdown_input {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    color: var(--dark-grey);
+    transition: 0s;
+}
+
+.dropdown_input :last-child {
+    transition: 0.2s;
+}
+
+.dropdown_menu[data-dropdown-opened="1"] .dropdown_input {
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+}
+
+.dropdown_input:hover {
+    cursor: pointer;
+}
+
+.dropdown_item {
+    display: flex;
+    align-items: center;
+    background: var(--white);
+    padding: 0 0 0 15px;
+    border-radius: 0;
+    border-top: none;
+}
+
+.dropdown_item:hover {
+    cursor: pointer;
+    background: var(--light-grey);
+}
+
+.dropdown_sections {
+    position: absolute;
+    z-index: 2;
+    width: inherit;
+    box-shadow: 4px 5px 5px rgba(0, 0, 0, 0.25);
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+.dropdown_sections :last-child {
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+/* Звёздочки рейтинга */
+
+.rating_stars {
+    display: flex;
+    width: fit-content;
+    margin-top: 20px;
+    flex-direction: row-reverse;
+}
+
+.rating_star {
+    display: flex;
+    width: fit-content;
+    font-size: 25px;
+    color: var(--light-grey);
+}
+
+.rating_star:hover,
+.rating_star:hover ~ .rating_star {
+    cursor: pointer;
+    color: var(--feature-color);
+}
+
+.rating_stars[data-total-value="1"] .rating_star:nth-child(n + 5), 
+.rating_stars[data-total-value="2"] .rating_star:nth-child(n + 4), 
+.rating_stars[data-total-value="3"] .rating_star:nth-child(n + 3),
+.rating_stars[data-total-value="4"] .rating_star:nth-child(n + 2),
+.rating_stars[data-total-value="5"] .rating_star:nth-child(n + 1) {
+    color: var(--feature-color);
+}
+
+/* Чекбоксы */
+
+.checkbox_default, .checkbox_circle {
+    position: relative;
+    width: 26px;
+    height: 26px;
+}
+
+.checkbox_default :hover, .checkbox_circle :hover, .checkbox_switcher :hover {
+    cursor: pointer;
+}
+
+.checkbox_default input, .checkbox_circle input, .checkbox_switcher input {
+    position: absolute;
+    opacity: 0;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+}
+
+.checkbox_background, .checkbox-circle_background, .checkbox-switcher_background {
+    width: inherit;
+    height: inherit;
+    background: var(--white);
+    border: 2px solid var(--lighter-grey);
+    border-radius: 3px;
+}
+
+.checkbox_default input:checked~.checkbox_background::after {
+    display: block;
+    position: absolute;
+    left: 8px;
+    top: 2px;
+    content: '';
+    width: 10px;
+    height: 18px;
+    transform: rotate(42deg);
+    border-bottom: 3.8px solid var(--feature-color);
+    border-right: 3.8px solid var(--feature-color);
+}
+
+.checkbox-circle_background, .checkbox-switcher_background {
+    border-radius: 100px;
+}
+
+.checkbox_circle input:checked~.checkbox-circle_background::after {
+    content: '';
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    display: block;
+    background: var(--feature-color);
+    width: 16px;
+    height: 16px;
+    border-radius: 100px;
+}
+
+.checkbox_switcher {
+    position: relative;
+    width: 52px;
+    height: 26px;
+}
+
+.checkbox-switcher_background {
+    border: 2px solid var(--feature-color);
+}
+
+.checkbox-switcher_background::after {
+    content: '';
+    position: absolute;
+    top: 1px;
+    left: 1px;
+    display: block;
+    background: var(--feature-color);
+    border: 1px solid var(--feature-color);
+    width: 24px;
+    height: 24px;
+    border-radius: 100px;
+    transition: 0.2s;
+}
+
+.checkbox_switcher input:checked~.checkbox-switcher_background {
+    background: var(--feature-color);
+}
+
+.checkbox_switcher input:checked~.checkbox-switcher_background::after {
+    transform: translate(26px, 0);
+    background: var(--white);
+    border: 1px solid var(--feature-color);
+}
+
+/* Счётчики */
+
+.counter_default {
+    display: flex;
+    border: 2px solid var(--feature-color);
+    border-radius: 5px;
+    width: 90px;
+    height: 35px;
+}
+
+.counter-default_button {
+    color: var(--feature-color);
+    font-size: 25px;
+    font-weight: 500;
+    background: var(--almost-white-grey);
+}
+
+.counter-default_button:hover {
+    cursor: pointer;
+    background: var(--light-grey);
+}
+
+.counter-default_count {
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.counter_default :first-child {
+    border-top-left-radius: 3px;
+    border-bottom-left-radius: 3px;
+}
+
+.counter_default :last-child {
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 3px;
+}
+
+.counter_default :nth-child(n+1), 
+.counter_default :nth-child(n+2),
+.counter_default :nth-child(n+3) {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 5px;
+    width: 35px;
+    height: 100%;
+}
+
+/* Слайдер */
+
+.slider {
+    width: var(--slider-width);
+    height: var(--slider-height);
+    position: relative;
+    overflow: hidden;
+    border-radius: 20px;
+  }
+  
+  .slider-imgs {
+    display: flex;
+    position: relative;
+    width: var(--container-width);
+    left: 0;
+    transition: 0.5s;
+  }
+  
+  .slide {
+    width: var(--slider-width);
+    height: var(--slider-height);
+  }
+  
+  .slide-arrow {
+    display: inline-block;
+    position: absolute;
+    opacity: 0.6;
+    width: 30px;
+    height: 30px;
+    top: 50%;
+    z-index: 1;
+    transition: 0.1s;
+  }
+  
+  .slide-arrow:hover {
+    cursor: pointer;
+    opacity: 1;
+  }
+  
+  .right {
+    border-top: 3px solid var(--dark-grey);
+    border-right: 3px solid var(--dark-grey);
+    right: 15px;
+    transform: rotate(45deg);
+  }
+  
+  .left {
+    border-top: 3px solid var(--dark-grey);
+    border-left: 3px solid var(--dark-grey);
+    transform: rotate(-45deg);
+    left: 15px;
+  }
+  
+  .slider-dots {
+    display: flex;
+    justify-content: center;
+    position: absolute;
+    bottom: 10px;
+    left: 0;
+    right: 0;
+    z-index: 1;
+  }
+  
+  .slider-dot {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    margin: 0 5px;
+    border: 2px solid var(--dark-grey);
+    border-radius: 35px;
+    opacity: 0.5;
+    transition: 0.1s;
+  }
+  
+  .dot-active {
+    background: var(--dark-grey);
+  }
+  
+  .slider-dot:hover {
+    cursor: pointer;
+    opacity: 1;
+  }
