@@ -9,34 +9,94 @@ ratingStars.forEach(item => {
 })
 
 // Дроп-меню
-let dropdownMenu = document.querySelector('.dropdown_menu');
-if(dropdownMenu){
-    let dropdownOpener = document.querySelector('.dropdown_input');
-    let dropdownSections = document.querySelector('.dropdown_sections');
-    let dropdownCaret = document.getElementById('dropdown-caret')
+// function dropdownMenu(menuClassName) {
+//     let dropdownMenu = document.querySelector(`${menuClassName}`);
+//     if(dropdownMenu){
+//         let dropdownOpener = document.querySelector(`${menuClassName} .dropdown_input`);
+//         let dropdownSections = document.querySelector(`${menuClassName} .dropdown_sections`);
+//         let dropdownCaret = document.getElementById(`${menuClassName} .dropdown-caret`);
+//         let sectionsCollection = document.querySelectorAll(`${menuClassName} .dropdown_item`);
+//         let dropdownValue = document.querySelector(`${dropdownOpener} span`);
 
-    function isDropdownOpened() {
-        if (dropdownMenu.dataset.dropdownOpened == 1) {
+//         function isDropdownOpened() {
+//             if (dropdownMenu.dataset.dropdownOpened == 1) {
+//                 dropdownSections.classList.remove('disabled');
+//                 dropdownCaret.style.transform = 'rotate(180deg)'
+//             } else {
+//                 dropdownSections.classList.add('disabled');
+//                 dropdownCaret.style.transform = null
+//             }
+//         }
+
+//         dropdownOpener.addEventListener('click', () => {
+//             if(dropdownMenu.dataset.dropdownOpened == 0) {
+//                 dropdownMenu.dataset.dropdownOpened = 1;
+//                 isDropdownOpened();
+//                 console.log('открыли')
+//             } else {
+//                 dropdownMenu.dataset.dropdownOpened = 0;
+//                 isDropdownOpened();
+//                 console.log('закрыли')
+//             }
+//         })
+
+//         sectionsCollection.forEach(section => {
+//             section.addEventListener('click', () => {
+//                 dropdownValue.innerText = section.innerText;
+//             })
+//         })
+//     }
+// }
+
+// Слайдер
+
+class DropdownMenu {
+    constructor (menuName) {
+        this.menuName = menuName;
+    }
+
+    isMenuOpened (menuName) {
+        let dropdownSections = document.querySelector(`.${menuName} .dropdown_sections`);
+        let dropdownCaret = document.querySelector(`.${menuName} .dropdown-caret`);
+
+        if (dropdownSections.classList.contains('disabled')) {
             dropdownSections.classList.remove('disabled');
-            dropdownCaret.style.transform = 'rotate(180deg)'
+            dropdownCaret.style.transform = 'rotate(180deg)';
         } else {
             dropdownSections.classList.add('disabled');
-            dropdownCaret.style.transform = null
+            dropdownCaret.style.transform = null;
         }
     }
 
-    dropdownOpener.addEventListener('click', () => {
-        if(dropdownMenu.dataset.dropdownOpened == 0) {
-            dropdownMenu.dataset.dropdownOpened = 1;
-            isDropdownOpened();
-        } else {
-            dropdownMenu.dataset.dropdownOpened = 0;
-            isDropdownOpened();
-        }
-    })
-}
+    chooseSection(menuName) {
+        let dropdownOpener = document.querySelector(`.${menuName} .dropdown_input`);
+        let sectionsCollection = document.querySelectorAll(`.${menuName} .dropdown_item`);
+        let dropdownValue = dropdownOpener.children[0];
+        let choosenSection;
 
-// Слайдер
+        sectionsCollection.forEach(section => {
+            section.addEventListener('click', () => {
+                dropdownValue.innerText = section.innerText;
+                dropdownValue.style.color = '#000';
+                choosenSection = dropdownValue.innerText;
+                this.isMenuOpened(menuName);
+            })
+        })
+
+        return choosenSection;
+    }
+
+    menuEventListeners(menuName) {
+        let dropdownOpener = document.querySelector(`.${menuName} .dropdown_input`);
+        dropdownOpener.addEventListener('click', () => this.isMenuOpened(menuName));
+        this.chooseSection(menuName);
+        
+    }
+
+    init () {
+        this.menuEventListeners(this.menuName);
+    }
+}
 
 class Slider {
     constructor(parent, sliderWidth, sliderHeight, containerWidth) {
@@ -158,5 +218,172 @@ class Slider {
     }
 }
 
-const announcementSlider = new Slider('sliders-announcement', '--slider-width', '--slider-height', '--container-width');
-announcementSlider.init()
+const announcementSlider = new Slider('slider-announcement', '--slider-announcement-width', '--slider-announcement-height', '--container-width');
+if(document.querySelector('.slider-announcement')) {
+    announcementSlider.init()
+}
+
+// Всплывающее окошко
+
+const popupTemplates = {
+    popupSignIn: `
+    <div class="userSignWrapper">
+        <form action="php/signin.php" method="post">
+            <div class="signPart">
+                <h1>Вход</h1>
+                <div class="sign_main">
+                    <div class="sign_inputs">
+                        <input class="input_default" type="text" name="login" placeholder="Логин">
+                        <input class="input_default" type="password" name="pass" placeholder="Пароль">
+                    </div>
+                    <div class="sign_additional">
+                        <div class="sign_additional-rememberme">
+                            <div class="checkbox_default">
+                                <input type="checkbox">
+                                <div class="checkbox_background"></div>
+                            </div>
+                            <span>Запомнить меня</span>
+                        </div>
+                        <div class="sign_additional-forgotpass"><a>Забыли пароль?</a></div>
+                    </div>
+                    <button type="submit" class="button_default sign_button">Войти</button>
+                </div>
+                <div class="sign_or">
+                    <div class="separator_line"></div>
+                    <span>Или</span>
+                    <div class="separator_line"></div>
+                </div>
+                <div class="sign_another">
+                    <div id="popupSignUp-btn" class="button_default">Зарегистрироваться</div>
+                </div>
+            </div> 
+        </form>
+        <form action="php/signup.php" method="post">    
+            <div class="signPart">
+                <h1>Регистрация</h1>
+                <div class="sign_main">
+                    <div class="sign_inputs">
+                        <input class="input_default" type="text" name="login" placeholder="Логин">
+                        <input class="input_default" type="password" name="pass" placeholder="Пароль">
+                        <input class="input_default" type="password" name="pass_confirm" placeholder="Подтверждение пароля">
+                    </div>
+                    <button type="submit" class="button_default sign_button">Зарегистрироваться</button>
+                </div>
+                <div class="sign_or">
+                    <div class="separator_line"></div>
+                    <span>Или</span>
+                    <div class="separator_line"></div>
+                </div>
+                <div class="sign_another">
+                    <div id="popupSignIn-btn" class="button_default">Войти</div>
+                </div>
+            </div>  
+        </form>    
+    </div> `
+}
+
+class Popup {
+    constructor(popupContent) {
+        this.popupContent = popupContent;
+    };
+
+    show(popupType, popupId) {
+        this.render(popupType, popupId)
+    }
+
+    hide() {
+        let popup = document.querySelector(`.popupBody`);
+        popup.remove();
+    }
+
+    hideOnClick() {
+        let popup = document.querySelector(`.popupBody`);
+        let popupBackground = document.querySelector(`.popupBackground`);
+        window.addEventListener('click', function (e) {
+            if (e.target == popupBackground) {
+                popup.remove();
+            }
+        })
+    }
+
+    hideOnEsc() {
+        let popup = document.querySelector(`.popupBody`);
+        window.addEventListener('keydown', function (e) {
+            if (e.key == 27) {
+                popup.remove()
+            }
+        })
+    }
+
+    render(popupType, popupId) {
+        document.body.insertAdjacentHTML('afterbegin', `
+        <div class="popupBody">
+            <div class="popupBackground"></div>
+            <div id="${popupId}" class="popupContent ${popupType}">
+                <div class="popupHeader">
+                    <button id="modal-btn-${popupId}" class="modal-btn"><i class="fa-solid fa-xmark"></i></button>
+                </div>
+                <div class="popupMain">
+                    ${this.popupContent}
+                </div>
+            </div>
+        </div>
+        `);
+
+        this.methodsForDifferentPopups(popupType)
+
+        document.querySelector(`#modal-btn-${popupId}`).addEventListener('click', () => this.hide());
+        this.hideOnClick()
+        this.hideOnEsc()
+    };
+
+    methodsForDifferentPopups(userPopupAttr) {
+        if(this.popupContent = popupTemplates.popupSignIn) {
+            this.userSignPopupListeners(userPopupAttr)
+        }
+    }
+
+    userSignPopupListeners(signType) {
+        let userSignPopup = document.querySelector(`.${signType}`);
+        if (userSignPopup) {
+            let userSignWrapper = document.querySelector('.userSignWrapper');
+            let registerButton = document.getElementById('popupSignUp-btn');
+            let loginButton = document.getElementById('popupSignIn-btn');
+
+            if (document.innerWidth <= 425) {
+                console.log('мобилка')
+                registerButton.addEventListener('click', () => {
+                    userSignWrapper.style.left = -400 + 'px'
+                })
+                loginButton.addEventListener('click', () => {
+                    userSignWrapper.style.left = 400 + 'px'
+                })
+            } else if (document.scrollWidth <= 325) {
+                registerButton.addEventListener('click', () => {
+                    userSignWrapper.style.left = -350 + 'px'
+                })
+                loginButton.addEventListener('click', () => {
+                    userSignWrapper.style.left = 350 + 'px'
+                })
+            } else {
+                registerButton.addEventListener('click', () => {
+                    userSignWrapper.style.left = -350 + 'px'
+                })
+                loginButton.addEventListener('click', () => {
+                    userSignWrapper.style.left = 350 + 'px'
+                })
+            }
+        }
+    }
+}
+
+const popupUserSignIn = new Popup(popupTemplates.popupSignIn);
+
+const signInButton = document.getElementById('signin');
+const signUpButton = document.getElementById('signup');
+
+if (signInButton && signUpButton) {
+    signInButton.addEventListener('click', () => popupUserSignIn.show('popupUserSignIn', 'userSignPopup'));
+    signUpButton.addEventListener('click', () => popupUserSignIn.show('popupUserSignUp', 'userSignPopup'));
+}
+
