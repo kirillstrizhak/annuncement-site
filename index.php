@@ -9,24 +9,28 @@
     <script src="https://kit.fontawesome.com/0d90cb17ec.js" crossorigin="anonymous"></script>
     <title>Главная</title>
 </head>
-<body>
-    <div id="preloader" class="loader_wrapper">
-        <div class="loader"></div>
+<body style="background: var(--almost-white);">
+    <div class="preLoader_container">
+        <div id="preloader" class="loader_wrapper">
+            <div class="loader"></div>
+        </div>
     </div>
     <header>
-        <div style="background: #000000; width: 100%; height: 25px;"></div>
+        <div class="header_topBar"><a href="index.php"></a></div>
         <div class="header_main_content">
+            <div class="logo"><a href="index.php" style="color: #fff;">STUFF SPOT</a></div>
             <div class="user">
-<?php if ($_COOKIE['user'] != ''):?>
-            <a href="creating-post.php" class="add_post button_default">Добавить объявление</a>
+<?php if ($_COOKIE['user_id'] != ''):?>
+            <a href="creating-post.php" class="add_post button_default add_post-desktop">Добавить объявление</a>
+            <a href="creating-post.php" class="add_post button_default add_post-mobile"><i class="fa-solid fa-plus"></i></a>
             <div class="user_info">
                 <div class="user_notification">
                     <div><i class="fa-regular fa-bell"></i></div>
                 </div>
-                <div class="user_name" data-userid="<?=$_COOKIE['user_id'];?>"><?=$_COOKIE['user'];?></div>
-                <div class="user_avatar"><img src="uploads/user_avatars/<?=$_COOKIE['avatar']?>" alt="avatar"></div>
+                <div class="user_name" data-userid="<?=$_COOKIE['user_id'];?>"></div>
+                <div class="user_avatar"><img src="" alt="avatar"></div>
                 <div class="user_dropdown" style="display: none;">
-                    <a href="#" class="user_dropdown-option">Профиль</a>
+                    <a href="account-page.php?id=<?=$_COOKIE['user_id'];?>" class="user_dropdown-option">Профиль</a>
                     <a href="/exit.php" class="user_dropdown-option">Выйти</a>
                 </div>
             </div>                
@@ -40,133 +44,99 @@
     </header>
     <main class="container">
         <nav class="categories">
-            <div class="button_underlined">
+            <div class="button_underlined js-allCategoriesBtn button_underlined-active">
                 <span class="button-underlined_text">ВСЕ КАТЕГОРИИ</span>
             </div>
-            <div class="button_underlined">
+            <div class="button_underlined js-findJobBtn">
                 <span class="button-underlined_text">НАЙТИ РАБОТУ</span>
             </div>
-            <div class="button_underlined">
+            <div class="button_underlined js-findEmployerBtn">
                 <span class="button-underlined_text">НАЙТИ СОТРУДНИКА</span>
             </div>
-            <div class="button_underlined">
+            <div class="button_underlined js-etcBtn">
                 <span class="button-underlined_text">ВЕЩИ, ЭЛЕКТРОНИКА И ПРОЧЕЕ</span>
             </div>
         </nav>
+        <div class="searchPosts">
+            <div class="fakeInput input_default searchPostsInput">
+                <div class="searchPosts_field">
+                    <span><i class="fa-solid fa-magnifying-glass"></i></span>
+                    <input placeholder="Поиск объявлений...">
+                    <span class="js-removeSearchFilterButton" style="display: none;"><i class="fa-solid fa-xmark"></i></span>
+                </div>
+                <div class="button_default searchPosts_button">Поиск</div>
+            </div>
+        </div>
+        <div class="alert-block">
+            <p>Дамы и господа! Эра рофлов окончена. Всвязи с размещением этого проекта как работы в моём портфолио, прошу вас впредь публиковать только 
+            объявления пристойного содержания. Всем спасибо!</p>
+        </div>
         <nav class="categories_mob">
-            <div class="categories_mob-dropdown_opener">Все категории <span><i class="fa-solid fa-caret-down"></i></span></div>
+            <div class="categories_opener">Все категории <span><i class="fa-solid fa-caret-down"></i></span></div>
             <div class="filter_opener">Фильтры <span><i class="fa-solid fa-caret-down"></i></span></div>
         </nav>
         <div class="posts_content">
             <div class="posts_container">
-                <div class="no_posts">
-                    <div>
-                        <span>Здесь ещё нет публикаций</span>
-                    </div>
-                </div>
-
-                <!-- <div class="post">
-                    <div class="post_info">
-                        <div class="post_main">
-                            <div class="slider-announcement"></div>
-                            <div class="post_text">
-                                <div class="post_additional_mob">
-                                    <div class="post_additional_mob-category">
-                                        Поиск работы
-                                    </div>
-                                    <div class="post_additional_mob-date">
-                                        Сегодня 17:25
-                                    </div>
-                                </div>
-                                <a href="#">
-                                    <h2>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Porro culpa quis cum!</h2>
-                                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi aliquam quisquam, laboriosam sunt nulla, quo dolores eligendi rerum tempore quaerat ab autem laudantium atque eos quia, labore vero et asperiores similique! Enim necessitatibus explicabo cum recusandae nostrum cumque obcaecati! Deleniti odio blanditiis dicta consequatur deserunt voluptas quaerat praesentium animi at officiis doloremque dolore, amet architecto, quam maxime obcaecati mollitia quidem. Provident sapiente neque quos, exercitationem odio rem mollitia deserunt numquam voluptatibus quia doloribus alias hic fugiat, esse cupiditate voluptate soluta.</p>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="post_additional"> 
-                            <div class="post_additional-user">
-                                <a href="#">
-                                    <img src="img/placeholder_avatar.png" alt="avatarka">
-                                    <p class="post_username">Semen Strikov</p>
-                                    <div class="isOnline">
-                                        <span></span><p>Offline</p>
-                                    </div>
-                                    <p class="post_user-registered"><span>Зарегистрирован:</span> 2 дня</p>
-                                </a>
-                            </div>
-                        <div class="post_additional-details">
-                            <ul>
-                                <li><span>Категория:</span> Поиск работы</li>
-                                <li><span>Сфера:</span> Прочее</li>
-                                <li><span>Опыт работы:</span> Без опыта</li>
-                                <li><span>График:</span> Не принципиально</li>
-                            </ul>
-                        </div>
-                        <div class="post_additional-date">
-                            <p><span>Размещено:</span> Сегодня 17:22</p> 
-                            <p><span>Просмотров:</span> 2</p> 
-                        </div>
-                    
-                    </div>
-                    </div>
-                    <div class="post_contact">
-                        <div class="post_price">
-                            <p>Сумма не указана</p><span class="valuta"></span>
-                        </div>
-                        <div class="post_buttons">
-                            <div class="button_default">Чат</div>
-                           <div class="button_default">Позвоните мне</div>
-                        </div>
-                    </div>
-                </div>-->
+                <div class="postsPreloader_container"></div>
+                <div class="renderedPosts"></div>
             </div> 
-            <div class="filters">
-                <div class="filters_main">
-                    <div class="price">
-                        <h1>Цена/Оплата, ₽</h1>
-                        <div class="price_minmax">
-                            <div class="price_min">
-                                <div class="price_from">от</div><input class="input_default" type="text" placeholder="Мин.">
+            <div class="categoriesAndFilters">
+                <div class="filters">
+                    <div class="filters_main">
+                        <div class="price">
+                            <h1>Цена/Оплата, ₽</h1>
+                            <div class="price_minmax">
+                                <div class="price_min">
+                                    <div class="price_from">от</div><input class="input_default" type="number" placeholder="Мин.">
+                                </div>
+                                <div class="price_max">
+                                    <div class="price_to">до</div><input class="input_default" type="number" placeholder="Макс.">
+                                </div>
                             </div>
-                            <div class="price_max">
-                                <div class="price_to">до</div><input class="input_default" type="text" placeholder="Макс.">
+                        </div>
+                        <div class="posted">
+                            <h1>Размещено</h1>
+                            <div class="posted_filters">
+                                <label class="posted_setting">
+                                    <div class="checkbox_circle">
+                                        <input class="js-checkbox-todayPosts" type="checkbox" name="posted_today">
+                                        <div class="checkbox-circle_background"></div>
+                                    </div>
+                                    <p>Сегодня</p>
+                                </label>
+                                <label class="posted_setting">
+                                    <div class="checkbox_circle">
+                                        <input class="js-checkbox-weekPosts" type="checkbox" name="posted_atweek">
+                                        <div class="checkbox-circle_background"></div>
+                                    </div>
+                                    <p>За последние 7 дней</p>
+                                </label>
+                                <label class="posted_setting">
+                                    <div class="checkbox_circle">
+                                        <input class="js-checkbox-allTimePosts" type="checkbox" name="posted_alltime">
+                                        <div class="checkbox-circle_background"></div>
+                                    </div>
+                                    <p>За всё время</p>
+                                </label>
                             </div>
                         </div>
                     </div>
-                    <div class="posted">
-                        <h1>Размещено</h1>
-                        <div class="posted_filters">
-                            <div class="posted_setting">
-                                <div class="checkbox_circle">
-                                    <input type="checkbox" name="posted_today">
-                                    <div class="checkbox-circle_background"></div>
-                                </div>
-                                <p>Сегодня<p>
-                            </div>
-                            <div class="posted_setting">
-                                <div class="checkbox_circle">
-                                    <input type="checkbox" name="posted_atweek">
-                                    <div class="checkbox-circle_background"></div>
-                                </div>
-                                <p>За последние 7 дней</p>
-                            </div>
-                            <div class="posted_setting">
-                                <div class="checkbox_circle">
-                                    <input type="checkbox" name="posted_alltime">
-                                    <div class="checkbox-circle_background"></div>
-                                </div>
-                                <p>За всё время</p>
-                            </div>
+                    <div class="filters_expanded">
+                        <div class="filters_dropdowns">
+                            
                         </div>
                     </div>
+                    <!-- <p class="expanded_search">Расширенный поиск <span><i class="fa-solid fa-caret-down"></i></span></p> -->
                 </div>
-                <div class="filters_expanded">
-                    <div class="filters_dropdowns">
-                        
+                <div class="categories_mob-container">
+                    <h1>Категории</h1>
+                    <div class="categories_mob-buttons">
+                        <div class="button_underlined button_underlined-active js-allCategoriesBtn">Все категории</div>                      
+                        <div class="button_underlined js-findJobBtn">Поиск работы</div> 
+                        <div class="button_underlined js-findEmployerBtn">Поиск сотрудника</div> 
+                        <div class="button_underlined js-etcBtn">Вещи, электроника и пр.</div>  
                     </div>
                 </div>
-                <p class="expanded_search">Расширенный поиск <span><i class="fa-solid fa-caret-down"></i></span></p>
             </div>
         </div>
     </main>
@@ -175,7 +145,7 @@
     </footer>
 </body>
 
-<script src="js/main.js"></script>
-<script src="js/ui.js"></script>
+<script async src="js/main.js"></script>
+<script async src="js/ui.js"></script>
 </html>
 

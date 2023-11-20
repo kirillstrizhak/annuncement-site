@@ -48,6 +48,7 @@
 .popupMain {
     height: 62px;
     overflow: auto;
+    /* -webkit-overflow-scrolling: touch; */
     margin-top: 10px;
     max-height: 100%;
 }

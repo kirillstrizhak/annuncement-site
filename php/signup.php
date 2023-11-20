@@ -1,53 +1,36 @@
 <?php
+$login = filter_var(trim($_POST['login']), FILTER_SANITIZE_STRING);
+$pass = filter_var(trim($_POST['pass']), FILTER_SANITIZE_STRING);
+$pass_confirm = filter_var(trim($_POST['pass_confirm']), FILTER_SANITIZE_STRING);
+$nickname = filter_var(trim($_POST['nickname']), FILTER_SANITIZE_STRING);
+$phone = filter_var(trim($_POST['phone']), FILTER_SANITIZE_STRING);
+$email = filter_var(trim($_POST['email']), FILTER_SANITIZE_STRING);
+$city = filter_var(trim($_POST['city']), FILTER_SANITIZE_STRING);
 
-// Определение переменных логина, пароля и имени 
+$pass_hashed = md5($pass."oernvoi312");
 
-$login = filter_var(trim($_POST['login']), 
-FILTER_SANITIZE_STRING);
-$pass = filter_var(trim($_POST['pass']), 
-FILTER_SANITIZE_STRING);
-$pass_confirm = filter_var(trim($_POST['pass_confirm']), 
-FILTER_SANITIZE_STRING);
+$mysql = new mysqli('127.0.0.1', 'root', '', 'ans');
 
-// Условия для создания логина, пароля и имени
+$exist_user = $mysql->query("SELECT * FROM `users` WHERE `login` = '$login'");
+$exist_email = $mysql->query("SELECT * FROM `users` WHERE `email` = '$email'");
+$exist_phone = $mysql->query("SELECT * FROM `users` WHERE `phone` = '$phone'");
 
- if(mb_strlen($login) < 5 || mb_strlen($login) > 90) {
-    echo "<p style=\"color: red;\">Длина логина должна быть не менее 5 и не больше 90 символов<p>";
-    exit();
- }
-
- if(mb_strlen($pass) < 2 || mb_strlen($pass) > 24) {
-    echo "<p style=\"color: red;\">Длина пароля должна быть не менее 2 и не больше 24 символов<p>";
-    exit();
- }
-
- if(mb_strlen($pass_confirm != $pass)) {
-   echo "<p style=\"color: red;\">Пароли не совпадают<p>";
+if($exist_user->num_rows != 0) {
+   echo json_encode(array("message" => "existing_login"));
+   exit();
+} else if($exist_email->num_rows != 0) {
+   echo json_encode(array("message" => "existing_email"));
+   exit();
+} else if($exist_phone->num_rows != 0) {
+   echo json_encode(array("message" => "existing_phone"));
    exit();
 }
 
-// Создание хэша пароля
-
-$pass = md5($pass."oernvoi312");
-
-// Подключение к базе данных
-
- $mysql = new mysqli('127.0.0.1', 'root', '', 'ans');
-
-// Добавление созданных данных о новом пользователе
- $exist_user = $mysql->query("SELECT * FROM `users` WHERE `login` = '$login'");
-
- if($exist_user->num_rows != 0) {
-   echo "<p style=\"color: red;\">Пользователь с таким именем уже существует<p>";
-   exit();
- }
-
- $mysql->query("INSERT INTO `users` (`login`, `pass`, `avatar`) VALUES('$login', '$pass', 'noavatar.png')");
-
-// Отключение от базы данных
+$result = $mysql->query("INSERT INTO `users` (`login`, `pass`, `nickname`, `city`, `phone`, `email`, `about`, `rating`, `avatar`) 
+VALUES ('$login', '$pass_hashed', '$nickname', '$city', '$phone', '$email', '', '0', 'noavatar.png')");
 
 $mysql->close();
 
-// Возвращение на основную страницу
-
-header('Location: /');
+echo json_encode(array("message" => "register_succesful"));
+exit();
+?>

@@ -1,8 +1,6 @@
 <?php
-$login = filter_var(trim($_POST['login']), 
-FILTER_SANITIZE_STRING);
-$pass = filter_var(trim($_POST['pass']), 
-FILTER_SANITIZE_STRING);
+$login = filter_var(trim($_POST['login']), FILTER_SANITIZE_STRING);
+$pass = filter_var(trim($_POST['pass']), FILTER_SANITIZE_STRING);
 
 $pass = md5($pass."oernvoi312");
 
@@ -10,15 +8,15 @@ $mysql = new mysqli('127.0.0.1', 'root', '', 'ans');
 
 $result = $mysql->query("SELECT * FROM `users` WHERE `login` = '$login'  AND `pass` = '$pass'");
 $user = $result->fetch_assoc();
-if(count($user) == 0) {
-    echo "Такой пользователь не найден";
+
+if($result->num_rows == 0) {
+    echo json_encode(array("message" => "wrong_input"));
     exit();
 }
 
-setcookie('user', $user['login'], time() + 3600 * 24, "/");
-setcookie('avatar', $user['avatar'], time() + 3600 * 24, "/");
-setcookie('user_id', $user['user_id'], time() + 3600 * 24, "/");
+setcookie('user_id', $user['id'], time() + 518400 * 24, "/");
 
 $mysql->close();
 
-header('Location: /');
+echo json_encode(array("message" => "login_succesful"));
+?>

@@ -13,7 +13,15 @@
     --box-shadow-color: #6B6B6B;
     --slider-announcement-width: 443px;
     --slider-announcement-height: 265px;
+    --slider-accountPage-width: 300px;
+    --slider-accountPage-height: 225px;
+    --slider-announcement-page-width: 729px;
+    --slider-announcement-page-height: 450px;
+    --slider-createAnnouncement-width: 443px;
+    --slider-createAnnouncement-height: 265px;
     --container-width: 0px;
+
+    --checkmark-color: #32A9FF;
 }
 
 
@@ -43,6 +51,19 @@
     animation: loading 0.7s infinite linear;
 }
 
+.postsLoader_wrapper {
+    position: absolute;
+    display: flex;
+    background: white;
+    opacity: 0.9;
+    width: 101%;
+    margin-top: 30px;
+    border-radius: 20px;
+    height: 99%;
+    justify-content: center;
+    z-index: 5;
+}
+
 @keyframes loading {
     from {
         transform: rotate(0deg);
@@ -60,12 +81,39 @@
     height: fit-content;
     color: var(--white);
     font-weight: 600;
-    font-size: 16px;
+    font-size: 14px;
     background: var(--feature-color);
     border: 3px solid var(--feature-color);
     border-radius: 5px;
-    padding: 10px 35px;
+    padding: 10px 20px;
     transition: 0.2s;
+}
+
+.button_default-reversed {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: fit-content;
+    text-transform: uppercase;
+    height: fit-content;
+    color: var(--feature-color);
+    font-weight: 600;
+    font-size: 16px;
+    background: var(--white);
+    border: 3px solid var(--feature-color);
+    border-radius: 5px;
+    padding: 10px 30px;
+    transition: 0.2s;
+}
+
+.button_default-reversed:hover {
+    cursor: pointer;
+    color: var(--white);
+    background: var(--feature-color);
+}
+
+.button_default-reversed .symbol-left {
+    margin-right: 7px;
 }
 
 .button_default:hover {
@@ -80,7 +128,7 @@
 }
 
 .button_disabled:hover {
-    cursor: default;
+    cursor: not-allowed;
 }
 
 .button_underlined {
@@ -88,6 +136,10 @@
     font-weight: 500;
     padding-bottom: 5px;
     border-bottom: 6px solid var(--light-grey);
+}
+
+.button_underlined-active {
+    border-bottom: 6px solid var(--feature-color);
 }
 
 .button_underlined:hover {
@@ -101,8 +153,9 @@
     height: 35px;
     font-size: 20px;
     font-weight: 500;
-    padding: 0 8px;
+    padding: 5px 8px;
     border: 2px solid var(--grey);
+    outline: none;
     border-radius: 5px;
 }
 
@@ -113,9 +166,9 @@
 
 /* Дроп-меню */
 
-/* .dropdown_menu {
-    width: 300px; 
-} */
+.dropdown_menu {
+    position: relative;
+}
 
 .dropdown_input {
     display: flex;
@@ -144,7 +197,6 @@
     display: flex;
     align-items: center;
     background: var(--white);
-    padding: 0 0 0 15px;
     border-radius: 0;
     border-top: none;
 }
@@ -156,12 +208,28 @@
 
 .dropdown_sections {
     position: absolute;
+    max-height: 200px;
+    overflow-y: auto;
+    overflow-x: hidden;
     z-index: 2;
-    width: inherit;
+    width: 100%;
     box-shadow: 4px 5px 5px rgba(0, 0, 0, 0.25);
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;
 }
+
+.dropdown_sections::-webkit-scrollbar {
+    width: 8px; 
+    background-color: #f5f5f5;
+  }
+  
+.dropdown_sections::-webkit-scrollbar-thumb {
+    background-color: var(--feature-color); 
+  }
+  
+.dropdown_sections::-webkit-scrollbar-thumb:hover {
+    background-color: var(--feature-color-lighter); 
+  }
 
 .dropdown_sections :last-child {
     border-bottom-left-radius: 5px;
@@ -170,22 +238,23 @@
 
 /* Звёздочки рейтинга */
 
-.rating_stars {
+.rating_stars, 
+.userReview .rating_stars {
     display: flex;
     width: fit-content;
-    margin-top: 20px;
     flex-direction: row-reverse;
 }
 
-.rating_star {
+.rating_star, 
+.userReview .rating_star {
     display: flex;
     width: fit-content;
     font-size: 25px;
     color: var(--light-grey);
 }
 
-.rating_star:hover,
-.rating_star:hover ~ .rating_star {
+.userReview .rating_star:hover,
+.userReview .rating_star:hover ~ .rating_star {
     cursor: pointer;
     color: var(--feature-color);
 }
@@ -359,8 +428,8 @@
 }
 
 .popupContent {
-    width: fit-content;
-    height: fit-content;
+    /* width: fit-content;
+    height: fit-content; */
     position: absolute;
     background: #fff;
     padding: 15px;
@@ -379,6 +448,7 @@
     display: flex;
     flex-direction: row-reverse;
     justify-content: space-between;
+    padding: 0 3px;
     padding-bottom: 5px;
     /* border-bottom: 1px solid #cdcdcd; */
 }
@@ -412,6 +482,8 @@
     font-size: 15px;
     background: none;
     border: none;
+    padding: 3px;
+    padding-top: 0;
     height: 0;
 }
 
@@ -440,3 +512,130 @@
     }
 }
 
+/* Всплывабщее сообщение */
+
+@keyframes messageStripe {
+    from {
+        width: 100%;
+    }
+    to {
+        width: 0px;
+    }
+}
+
+.animatedMessage {
+    position: fixed;
+    font-weight: 500;
+    font-size: 16px;
+    top: 35px;
+    left: 15px;
+    z-index: 1010;
+}
+
+.messageContent {
+    display: flex;
+    padding: 10px;
+}
+
+.animatedMessage span {
+    margin-right: 10px;
+}
+
+.messageDurationStripe {
+    width: 100%;
+    height: 5px;
+    animation-name: messageStripe;
+    animation-duration: 6s;
+    animation-timing-function: linear;
+}
+
+.messageDurationStripeOneSecond {
+    width: 100%;
+    height: 5px;
+    animation-name: messageStripe;
+    animation-duration: 1s;
+    animation-timing-function: linear;
+}
+
+/* ГАЛОЧКА */
+
+.checkmark_wrapper {
+    width: 200px;
+    height: 200px;
+    position: relative;
+}
+
+.checkmark_wrapper::after {
+    content: "";
+    display: block;
+    border: 6px solid #c3c3c3;
+    border-radius: 50%;
+    width: 100%;
+    height: 100%;
+}
+
+.checkmark_wrapper::before {
+    content: "";
+    display: block;
+    border: 6px solid transparent;
+    border-left-color: var(--checkmark-color);
+    position: absolute;
+    border-radius: 50%;
+    width: 100%;
+    height: 100%;
+    transition: 0.2s;
+    animation: circle linear forwards 1s;
+}
+
+.checkmark {
+    width: 100px;
+    height: 50px;
+    opacity: 0;
+    border-left: 6px solid var(--checkmark-color);
+    border-bottom: 6px solid var(--checkmark-color);
+    transform-origin: left top;
+    transform: rotate(-50deg);
+    position: absolute;
+    left: 25%;
+    top: 55%;
+    animation: checkmark linear forwards 1s;
+}
+
+@keyframes circle {
+    0% {
+        border-color: transparent;
+        border-left-color: var(--checkmark-color);
+    } 
+    90% {
+        transform: rotate(-360deg);
+        border-color: transparent;
+        border-left-color: var(--checkmark-color);
+    }
+    100% {
+        transform: rotate(-360deg);
+        border-color: var(--checkmark-color);
+    }
+}
+
+@keyframes checkmark {
+    0% {
+        width: 0;
+        height: 0;
+        opacity: 0;
+    }
+    80% {
+        width: 0;
+        height: 0;
+        opacity: 0;
+    }
+    90% {
+        width: 0;
+        height: 50px;
+        opacity: 1;
+    }
+    100%{
+        width: 100px;
+        height: 50px;
+        opacity: 1;
+    }
+}
