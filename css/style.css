@@ -2191,6 +2191,55 @@ header {
     border-radius: 20px;
 }
 
+footer {
+    display: flex;
+    box-sizing: border-box;
+    height: fit-content;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+footer h1 {
+    color: #fff;
+    text-align: center;
+    font-weight: 500;
+}
+
+.footer_contacts-main {
+    margin: 25px 0;
+}
+
+.footer_contacts ul {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    color: #fff;
+    font-size: 25px;
+}
+
+.footer_contacts ul li {
+    list-style: none;
+    margin: 0 15px;
+}
+
+.footer_contacts ul span {
+    margin-right: 7px;
+}
+
+.footer_contacts-additional li {
+    font-size: 45px;
+}
+
+footer a,
+footer a:visited {
+    color: #fff;
+}
+
+footer a:hover {
+    color: #fff;
+}
+
 @media (max-width: 1366px) {
     
     .postPage_container {

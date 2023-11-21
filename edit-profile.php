@@ -109,7 +109,24 @@ $parsedUser = htmlspecialchars(json_encode($user));
         </main>
     </body>
 
-    <footer></footer>
+    <footer>
+        <div class="footer_contacts">
+            <h1>Контакты</h1>
+            <div class="footer_contacts-main">
+                <ul>
+                    <li><a href="tel:+79257377139"><span><i class="fa-solid fa-phone"></i></span>+7 925 737 71-39</a></li>
+                    |
+                    <li><a href="mailto:holdup0192@mail.ru"><span><i class="fa-solid fa-envelope"></i></span>holdup0192@mail.ru</a></li>
+                </ul>
+            </div>
+            <div class="footer_contacts-additional">
+                <ul>
+                    <li><a href="https://vk.com/suckmyplague" target="_blank"><i class="fa-brands fa-vk"></i></a></li>
+                    <li><a href="https://t.me/suckmyplague" target="_blank"><i class="fa-brands fa-telegram"></i></a></li>
+                </ul>
+            </div>
+        </div>
+    </footer>
 
     <script src="js/ui.js"></script>
     <script src="js/main.js"></script>
