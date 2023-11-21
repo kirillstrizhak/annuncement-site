@@ -239,9 +239,9 @@ $parsedPost = htmlspecialchars(json_encode($post));
             <h1>Контакты</h1>
             <div class="footer_contacts-main">
                 <ul>
-                    <li><a href="tel:+79257377139"><span><i class="fa-solid fa-phone"></i></span>+7 925 737 71-39</a></li>
-                    |
-                    <li><a href="mailto:holdup0192@mail.ru"><span><i class="fa-solid fa-envelope"></i></span>holdup0192@mail.ru</a></li>
+                    <li><a href="tel:+79257377139"><span class="contact_icon"><i class="fa-solid fa-phone"></i></span>+7 925 737 71-39</a></li>
+                    <span class="footer_separator_line">|</span>
+                    <li><a href="mailto:holdup0192@mail.ru"><span class="contact_icon"><i class="fa-solid fa-envelope"></i></span>holdup0192@mail.ru</a></li>
                 </ul>
             </div>
             <div class="footer_contacts-additional">

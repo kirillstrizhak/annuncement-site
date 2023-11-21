@@ -2223,7 +2223,7 @@ footer h1 {
     margin: 0 15px;
 }
 
-.footer_contacts ul span {
+.contact_icon {
     margin-right: 7px;
 }
 
@@ -3482,6 +3482,28 @@ footer a:hover {
         width: 20px;
         height: 20px;
         margin: 0 7px;
+    }
+
+    .footer_contacts ul {
+        flex-direction: column;
+        font-size: 16px;
+    }
+
+    .footer_contacts ul li {
+        margin: 10px 0;
+    }
+
+    .footer_contacts-additional ul  {
+        flex-direction: row;
+    }
+        
+    .footer_contacts-additional ul li {
+        margin: 0 10px;
+        font-size: 35px;
+    }
+
+    .footer_separator_line {
+        display: none;
     }
 }
 
